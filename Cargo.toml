@@ -1,0 +1,13 @@
+[package]
+name = "signature-schemes-ark"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+hex = { version = "0.4", default-features = false, features = ["alloc"] }
+ark-ff = "0.4.2"
+ark-ec = "0.4.2"
+ark-std = "0.4.0"
+ark-test-curves = {version = "0.4.2", features = ["bls12_381_curve"]}
+
+
