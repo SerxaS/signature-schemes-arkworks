@@ -1,5 +1,6 @@
 use super::Poseidon;
-use halo2::{arithmetic::Field, halo2curves::bn256::Fr};
+use ark_ff::Zero;
+use ark_test_curves::bls12_381::Fr;
 
 /// Constructs objects.
 #[derive(Clone, Debug)]
@@ -15,7 +16,7 @@ impl PoseidonSponge {
     pub fn new() -> Self {
         Self {
             inputs: Vec::new(),
-            state: [Fr::ZERO; 5],
+            state: [Fr::zero(); 5],
         }
     }
 
@@ -28,7 +29,7 @@ impl PoseidonSponge {
     /// chunks of size 5.
     fn load_state(chunk: &[Fr]) -> [Fr; 5] {
         assert!(chunk.len() <= 5);
-        let mut fixed_chunk = [Fr::ZERO; 5];
+        let mut fixed_chunk = [Fr::zero(); 5];
         fixed_chunk[..chunk.len()].copy_from_slice(chunk);
         fixed_chunk
     }
@@ -37,11 +38,11 @@ impl PoseidonSponge {
     /// permuting until no more chunks are left.
     pub fn squeeze(&mut self) -> Fr {
         if self.inputs.is_empty() {
-            self.inputs.push(Fr::ZERO);
+            self.inputs.push(Fr::zero());
         }
 
         for chunk in self.inputs.chunks(5) {
-            let mut input = [Fr::ZERO; 5];
+            let mut input = [Fr::zero(); 5];
 
             // Absorb
             let loaded_state = Self::load_state(chunk);

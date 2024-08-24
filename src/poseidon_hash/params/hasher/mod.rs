@@ -1,6 +1,7 @@
 /// Poseidon Bn254 with 5 = 5 and EXPONENTIATION = 5
 pub mod poseidon_bn254_5x5;
-use halo2::{arithmetic::Field, halo2curves::bn256::Fr, halo2curves::ff::FromUniformBytes};
+use ark_ff::{PrimeField, Zero};
+use ark_test_curves::bls12_381::Fr;
 use std::fmt::Debug;
 
 /// Trait definition of Round parameters of Poseidon
@@ -30,7 +31,7 @@ pub trait RoundParams: Sbox + Clone + Debug {
 
     /// Returns relevant constants for the given round.
     fn load_round_constants(round: usize, round_consts: &[Fr]) -> [Fr; 5] {
-        let mut result = [Fr::ZERO; 5];
+        let mut result = [Fr::zero(); 5];
         for i in 0..5 {
             result[i] = round_consts[round * 5 + i];
         }
@@ -50,7 +51,7 @@ pub trait RoundParams: Sbox + Clone + Debug {
     /// Add round constants to the state values
     /// for the AddRoundConstants operation.
     fn apply_round_constants(state: &[Fr; 5], round_consts: &[Fr; 5]) -> [Fr; 5] {
-        let mut next_state = [Fr::ZERO; 5];
+        let mut next_state = [Fr::zero(); 5];
         for i in 0..5 {
             let state = state[i];
             let round_const = round_consts[i];
@@ -61,7 +62,7 @@ pub trait RoundParams: Sbox + Clone + Debug {
     }
     /// Compute MDS matrix for MixLayer operation.
     fn apply_mds(state: &[Fr; 5]) -> [Fr; 5] {
-        let mut new_state = [Fr::ZERO; 5];
+        let mut new_state = [Fr::zero(); 5];
         let mds = Self::mds();
         for i in 0..5 {
             for j in 0..5 {
@@ -89,5 +90,5 @@ pub fn hex_to_field(s: &str) -> Fr {
     bytes.reverse();
     let mut bytes_wide: [u8; 64] = [0; 64];
     bytes_wide[..bytes.len()].copy_from_slice(&bytes[..]);
-    Fr::from_uniform_bytes(&bytes_wide)
+    Fr::from_le_bytes_mod_order(&bytes_wide)
 }

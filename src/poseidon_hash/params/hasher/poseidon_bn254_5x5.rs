@@ -1,5 +1,6 @@
 use super::*;
-use halo2::halo2curves::bn256::Fr;
+use ark_test_curves::bls12_381::Fr;
+use ark_test_curves::Field;
 
 #[derive(Clone, Debug)]
 /// Configures a structure.
