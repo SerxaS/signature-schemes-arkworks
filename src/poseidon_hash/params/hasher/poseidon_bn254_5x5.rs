@@ -1,6 +1,6 @@
 use super::*;
-use ark_test_curves::bls12_381::Fr;
-use ark_test_curves::Field;
+use ark_bn254::Fr;
+use ark_ff::Field;
 
 #[derive(Clone, Debug)]
 /// Configures a structure.

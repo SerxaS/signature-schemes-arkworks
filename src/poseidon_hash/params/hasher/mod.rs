@@ -1,7 +1,7 @@
 /// Poseidon Bn254 with 5 = 5 and EXPONENTIATION = 5
 pub mod poseidon_bn254_5x5;
+use ark_bn254::Fr;
 use ark_ff::{PrimeField, Zero};
-use ark_test_curves::bls12_381::Fr;
 use std::fmt::Debug;
 
 /// Trait definition of Round parameters of Poseidon

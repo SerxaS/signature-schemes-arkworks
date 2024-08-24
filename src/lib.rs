@@ -4,7 +4,8 @@ mod signatures;
 #[cfg(test)]
 mod test {
     use crate::signatures::schnorr_single::{sch_verify, SchSign};
-    use ark_test_curves::{bls12_381::Fr, UniformRand};
+    use ark_bn254::Fr;
+    use ark_std::UniformRand;
 
     #[test]
     fn schnorr_test() {

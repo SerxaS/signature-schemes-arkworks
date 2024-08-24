@@ -1,13 +1,10 @@
-/// Signature scheme was made using https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki
+use crate::poseidon_hash::sponge::PoseidonSponge;
+use ark_bn254::{Fr, G1Projective as G1};
 use ark_ec::Group;
 use ark_ff::{BigInteger, PrimeField};
-use ark_test_curves::{
-    bls12_381::{Fr, G1Projective as G1},
-    UniformRand,
-};
+use ark_std::UniformRand;
 
-use crate::poseidon_hash::sponge::PoseidonSponge;
-
+/// Signature scheme was made using https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki
 pub struct SchSign {
     pub(crate) big_r: G1,
     pub(crate) s: Fr,

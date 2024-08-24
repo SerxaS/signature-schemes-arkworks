@@ -1,6 +1,6 @@
 use super::Poseidon;
+use ark_bn254::Fr;
 use ark_ff::Zero;
-use ark_test_curves::bls12_381::Fr;
 
 /// Constructs objects.
 #[derive(Clone, Debug)]
