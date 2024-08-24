@@ -1,6 +1,6 @@
-use ark_ec::{AffineRepr, Group};
 /// Signature scheme was made using https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki
-use ark_ff::{BigInteger, Field, FpConfig, PrimeField, Zero};
+use ark_ec::Group;
+use ark_ff::{BigInteger, PrimeField};
 use ark_test_curves::{
     bls12_381::{Fr, G1Projective as G1},
     UniformRand,
@@ -17,7 +17,7 @@ pub struct SchSign {
 impl SchSign {
     pub fn signature(message: Fr) -> SchSign {
         // Random number generator.
-        let rng = ark_std::test_rng();
+        let mut rng = ark_std::test_rng();
 
         // Alice's private and public key generation.
         let alice_priv = Fr::rand(&mut rng);
@@ -31,7 +31,7 @@ impl SchSign {
         // means that the public key is prefixed to the message in the challenge hash input.
         // Concatenates "r", "alice pub key" and "message" then hashes them.
         let big_r_fr = Fr::from_le_bytes_mod_order(&big_r.x.0.to_bytes_le());
-        let alice_pub_fr = Fr::from_bytes(&alice_pub.x.to_bytes()).unwrap();
+        let alice_pub_fr = Fr::from_le_bytes_mod_order(&alice_pub.x.0.to_bytes_le());
 
         let mut sponge = PoseidonSponge::new();
         sponge.update(&[big_r_fr, alice_pub_fr, message]);
@@ -50,8 +50,8 @@ impl SchSign {
 
 pub fn sch_verify(message: Fr, signature: SchSign) {
     // Concatenates "r", "alice pub key" and "message" then hashes them.
-    let big_r_fr = Fr::from_bytes(&signature.big_r.x.to_bytes()).unwrap();
-    let alice_pub_fr = Fr::from_bytes(&signature.alice_pub.x.to_bytes()).unwrap();
+    let big_r_fr = Fr::from_le_bytes_mod_order(&signature.big_r.x.0.to_bytes_le());
+    let alice_pub_fr = Fr::from_le_bytes_mod_order(&signature.alice_pub.x.0.to_bytes_le());
 
     let mut sponge = PoseidonSponge::new();
     sponge.update(&[big_r_fr, alice_pub_fr, message]);
