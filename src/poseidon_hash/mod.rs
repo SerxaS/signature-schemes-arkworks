@@ -1,7 +1,9 @@
-pub mod params;
 /// Native sponge implementation
+pub mod params;
 pub mod sponge;
+
 use self::params::hasher::{poseidon_bn254_5x5::Params, RoundParams, Sbox};
+
 use ark_bn254::Fr;
 
 type P = Params;

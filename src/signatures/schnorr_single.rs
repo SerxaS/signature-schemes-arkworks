@@ -1,4 +1,5 @@
 use crate::poseidon_hash::sponge::PoseidonSponge;
+
 use ark_bn254::{Fr, G1Projective as G1};
 use ark_ec::Group;
 use ark_ff::{BigInteger, PrimeField};
@@ -27,8 +28,8 @@ impl SchSign {
         // To protect against attacks, we choose key prefixed Schnorr signatures which
         // means that the public key is prefixed to the message in the challenge hash input.
         // Concatenates "r", "alice pub key" and "message" then hashes them.
-        let big_r_fr = Fr::from_le_bytes_mod_order(&big_r.x.0.to_bytes_le());
         let alice_pub_fr = Fr::from_le_bytes_mod_order(&alice_pub.x.0.to_bytes_le());
+        let big_r_fr = Fr::from_le_bytes_mod_order(&big_r.x.0.to_bytes_le());
 
         let mut sponge = PoseidonSponge::new();
         sponge.update(&[big_r_fr, alice_pub_fr, message]);
@@ -47,8 +48,8 @@ impl SchSign {
 
 pub fn sch_verify(message: Fr, signature: SchSign) {
     // Concatenates "r", "alice pub key" and "message" then hashes them.
-    let big_r_fr = Fr::from_le_bytes_mod_order(&signature.big_r.x.0.to_bytes_le());
     let alice_pub_fr = Fr::from_le_bytes_mod_order(&signature.alice_pub.x.0.to_bytes_le());
+    let big_r_fr = Fr::from_le_bytes_mod_order(&signature.big_r.x.0.to_bytes_le());
 
     let mut sponge = PoseidonSponge::new();
     sponge.update(&[big_r_fr, alice_pub_fr, message]);

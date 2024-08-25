@@ -1,5 +1,6 @@
 /// Poseidon Bn254 with 5 = 5 and EXPONENTIATION = 5
 pub mod poseidon_bn254_5x5;
+
 use ark_bn254::Fr;
 use ark_ff::{PrimeField, Zero};
 use std::fmt::Debug;
@@ -79,8 +80,6 @@ pub trait RoundParams: Sbox + Clone + Debug {
 pub trait Sbox {
     /// Returns the S-box exponentiation for the field element.
     fn sbox_f(f: Fr) -> Fr;
-    /// Returns the S-box exponentiation of the inverse for the field element.
-    fn sbox_inv_f(f: Fr) -> Fr;
 }
 
 /// Returns congruent field element for the given hex string.

@@ -1,4 +1,5 @@
 use super::Poseidon;
+
 use ark_bn254::Fr;
 use ark_ff::Zero;
 
